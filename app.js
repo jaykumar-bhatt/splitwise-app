@@ -1,6 +1,7 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import bodyParser from 'body-parser';
+import flash from 'connect-flash';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import path from 'path';
@@ -30,7 +31,11 @@ app.use(
     resave: true,
   }),
 );
-
+app.use(flash());
+app.use((req, res, next) => {
+  res.locals.message = req.flash();
+  next();
+});
 app.use(cors());
 app.use(bodyParser.json());
 app.use('/', routes);

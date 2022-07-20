@@ -21,16 +21,37 @@ export const signin = async (req, res) => {
       password,
       createdAt,
     };
-
     const newUser = await Users.create(payload);
     const token = createToken(newUser.dataValues);
     res.cookie('token', token);
     return res.render('welcome');
   } catch (error) {
-    console.log(error);
+    return res.send(error);
   }
 };
 
 export const login = async (req, res) => {
+  try {
+    const { email, password } = req.body;
 
+    const user = await Users.findOne({
+      where: { email }, attributes: ['email', 'id', 'contactNumber', 'password'],
+    });
+
+    if (!user) {
+      return res.send('Invalid credential.');
+    }
+
+    const result = await bcrypt.compare(password, user.dataValues.password);
+    if (!result) {
+      return res.send('Invalid credential.');
+    }
+
+    const token = createToken(user.dataValues);
+    res.cookie('token', token);
+
+    return res.render('welcome');
+  } catch (error) {
+    return res.send(error);
+  }
 };

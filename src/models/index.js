@@ -1,6 +1,5 @@
-
-/* eslint-disable import/no-dynamic-require */
 /* eslint-disable global-require */
+/* eslint-disable import/no-dynamic-require */
 
 const fs = require('fs');
 const path = require('path');
@@ -8,7 +7,6 @@ const Sequelize = require('sequelize');
 
 const basename = path.basename(__filename);
 const env = process.env.NODE_ENV || 'development';
-// eslint-disable-next-line import/no-dynamic-require
 const config = require(`${__dirname}/../config/config.js`)[env];
 const db = {};
 
@@ -47,34 +45,6 @@ db.Sequelize = Sequelize;
 //= ==============================
 // Define all relationships here below
 //= ==============================
-// db.User.hasMany(db.Address);
-// db.Address.belongsTo(db.User);
-
-
-// db.subcategory = require('./subcategory')(sequelize, Sequelize.DataTypes);
-// db.brand = require('./brand')(sequelize, Sequelize.DataTypes);
-
-// db.subcategory.belongsToMany(db.brand, {
-//   through: 'subcatBrands',
-//   as: 'brand',
-//   foreignKey: 'subcat_id',
-//   onDelete: 'CASCADE',
-//   onUpdate: 'CASCADE',
-
-// });
-
-// db.brand.belongsToMany(db.subcategory, {
-//   through: 'subcatBrands',
-//   as: 'subcategory',
-//   foreignKey: 'brand_id',
-//   onDelete: 'CASCADE',
-//   onUpdate: 'CASCADE',
-
-// });
-
-
-// db.tmpsub.belongsTo(db.Category, { foreignKey: 'catId' });
-// db.Category.hasMany(db.tmpsub, { foreignKey: 'catId' });
 
 
 module.exports = db;
