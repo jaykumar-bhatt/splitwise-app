@@ -1,9 +1,10 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import bodyParser from 'body-parser';
+import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import path from 'path';
-import morgan from 'morgan';
+import session from 'express-session';
 
 import routes from './src/routes/index';
 
@@ -15,10 +16,18 @@ const app = express();
 app.set('views', path.join(__dirname, '/src/views'));
 app.use(express.static(`${__dirname}/src/public`));
 app.set('view engine', 'ejs');
-app.use(morgan('tiny'));
 app.use(
   bodyParser.urlencoded({
     extended: true,
+  }),
+);
+app.use(cookieParser());
+app.use(
+  session({
+    secret: 'ansinsiniweo',
+    cookie: { maxAge: 60000 },
+    saveUninitialized: true,
+    resave: true,
   }),
 );
 
