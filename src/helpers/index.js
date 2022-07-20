@@ -11,14 +11,8 @@ export const createToken = (data) => {
 };
 
 // success response
-export const successResponse = (
-  req,
-  res,
-  message,
-  data,
-  code = 200,
-) => res.status(code).json({
-  message,
+export const successResponse = (req, res, data = 'Success.', code = 200) => ({
+  code,
   data,
   success: true,
 });
@@ -30,7 +24,8 @@ export const errorResponse = (
   errorMessage = 'Something went wrong',
   code = 500,
   error = {},
-) => res.status(code).json({
+) => ({
+  code,
   errorMessage,
   error,
   success: false,
