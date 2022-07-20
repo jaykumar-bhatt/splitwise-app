@@ -24,7 +24,7 @@ export const signin = async (req, res) => {
     const newUser = await Users.create(payload);
     const token = createToken(newUser.dataValues);
     res.cookie('token', token);
-    return res.render('welcome');
+    return res.redirect('/');
   } catch (error) {
     return res.send(error);
   }
@@ -50,7 +50,7 @@ export const login = async (req, res) => {
     const token = createToken(user.dataValues);
     res.cookie('token', token);
 
-    return res.render('welcome');
+    return res.redirect('/');
   } catch (error) {
     return res.send(error);
   }
