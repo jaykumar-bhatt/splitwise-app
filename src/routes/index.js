@@ -1,11 +1,11 @@
 import express from 'express';
+import auth from './auth.routes';
 import user from './user.routes';
-import home from './home.routes';
 
 const router = express.Router();
 
+router.use('/', auth);
 router.use('/', user);
 
-router.use('/', home);
 
 module.exports = router;
