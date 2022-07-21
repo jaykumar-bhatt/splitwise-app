@@ -8,12 +8,14 @@ const authentication = async (req, res, next) => {
     const { token } = req.cookies;
 
     if (!token) {
-      return errorResponse(req, res, 'Token not found', 404);
+      req.flash('response', errorResponse(req, res, 'Please Login...'));
+      return res.redirect('/login');
     }
 
     jwt.verify(token, process.env.SECRET, (error, user) => {
       if (error) {
-        return errorResponse(req, res, 'You are not authorize.', 403);
+        req.flash('response', errorResponse(req, res, 'Please Login...'));
+        return res.redirect('/login');
       }
       req.user = user;
 

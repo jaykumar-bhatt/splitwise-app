@@ -1,3 +1,4 @@
+/* eslint-disable func-names */
 /* eslint-disable no-unused-vars */
 module.exports = (sequelize, DataTypes) => {
   const Users = sequelize.define(
@@ -36,7 +37,14 @@ module.exports = (sequelize, DataTypes) => {
   );
 
   Users.associate = function (models) {
-
+    Users.hasMany(models.Friends, {
+      as: 'Users',
+      foreignKey: 'userId',
+    });
+    Users.hasMany(models.Friends, {
+      as: 'Friends',
+      foreignKey: 'friendId',
+    });
   };
   return Users;
 };
