@@ -20,13 +20,13 @@
             <a class="nav-link" aria-current="page" href="#">Group</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Friends</a>
+            <a class="nav-link" href="/">Friends</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#" tabindex="-1" aria-disabled="true">Activity</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#" tabindex="-1" aria-disabled="true">All Users</a>
+            <a class="nav-link active" href="/allUser" tabindex="-1" aria-disabled="true">All Users</a>
           </li>
         </ul>
       </div>
@@ -73,10 +73,11 @@
                 <td><%=element.email%></td>
                 <td><%=element.contactNumber%></td>
                 <td>
-                  <a href="/?friendId=<%=element.id%>">
+                  <a href="/add?friendId=<%=element.id%>">
                     <span class="mx-auto me-4"
                       ><i class="fas fa-plus"></i></span>
                   </a>
+                  
                 </td>
               </tr>
               <% }); %>

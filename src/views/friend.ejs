@@ -20,13 +20,13 @@
             <a class="nav-link" aria-current="page" href="#">Group</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Friends</a>
+            <a class="nav-link active" href="/">Friends</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#" tabindex="-1" aria-disabled="true">Activity</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#" tabindex="-1" aria-disabled="true">All Users</a>
+            <a class="nav-link" href="/allUser" tabindex="-1" aria-disabled="true">All Users</a>
           </li>
         </ul>
       </div>
@@ -63,23 +63,20 @@
               <th>Name</th>
               <th>Email</th>
               <th>Contact No.</th>
-              <th>Action</th>
+              <th>Remove Friend</th>
             </tr>
           </thead>
           <tbody>
             <% data.forEach(element => { %>
               <tr>
-                <td><%=element.name%></td>
-                <td><%=element.email%></td>
-                <td><%=element.contactNumber%></td>
+                <td><%=element.Users.dataValues.name%></td>
+                <td><%=element.Users.dataValues.email%></td>
+                <td><%=element.Users.dataValues.contactNumber%></td>
                 <td>
-                  <a href="/update-user?id=<= element._id %>">
+                  <a href="/remove?id=<%=element.id%>">
                     <span class="mx-auto me-4"
-                      ><i class="fas fa-pencil-alt"></i
+                      ><i class="fas fa-times"></i
                     ></span>
-                  </a>
-                  <a class="delete">
-                    <span><i class="fas fa-times"></i></span>
                   </a>
                 </td>
               </tr>

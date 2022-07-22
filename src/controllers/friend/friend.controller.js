@@ -1,8 +1,6 @@
-/* eslint-disable import/prefer-default-export */
 import { v4 } from 'uuid';
-import { Friends } from '../../models';
+import { Friends, Users } from '../../models';
 import { successResponse, errorResponse } from '../../helpers/index';
-
 
 export const addFriend = async (req, res) => {
   try {
@@ -16,9 +14,39 @@ export const addFriend = async (req, res) => {
     };
     await Friends.create(payload);
     req.flash('response', successResponse(req, res, 'Successfully add Friend.'));
-    res.redirect('/allUser');
+    return res.redirect('/allUser');
   } catch (error) {
     req.flash('response', errorResponse(req, res, 'Error while add Friend.', error));
-    res.redirect('/allUser');
+    return res.redirect('/allUser');
+  }
+};
+
+export const getFriends = async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const result = await Friends.findAll({
+      include: { model: Users, as: 'Users' },
+      where: { userId },
+      attributes: ['id'],
+    });
+    req.flash('response', successResponse(req, res, 'Successfully Fetch Friend.'));
+    return res.render('friend', { data: result });
+  } catch (error) {
+    req.flash('response', errorResponse(req, res, 'Error while Fetch Friend.', error));
+    return res.render('login');
+  }
+};
+
+export const removeFriend = async (req, res) => {
+  try {
+    const { id } = req.query;
+    await Friends.destroy({
+      where: { id },
+    });
+    req.flash('response', successResponse(req, res, 'Remove Friend Successfully.'));
+    return res.redirect('/');
+  } catch (error) {
+    req.flash('response', errorResponse(req, res, 'Error while delete Friend.', error));
+    return res.redirect('/');
   }
 };

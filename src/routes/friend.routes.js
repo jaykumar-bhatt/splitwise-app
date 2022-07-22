@@ -4,6 +4,8 @@ import authentication from '../middlewares/authentication';
 
 const router = express.Router();
 
-router.get('/', authentication, friendController.addFriend);
+router.get('/add', authentication, friendController.addFriend);
+router.get('/', authentication, friendController.getFriends);
+router.get('/remove', authentication, friendController.removeFriend);
 
 module.exports = router;

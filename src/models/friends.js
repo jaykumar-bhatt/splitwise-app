@@ -31,13 +31,13 @@ module.exports = (sequelize, DataTypes) => {
 
   Friends.associate = function (models) {
     Friends.belongsTo(models.Users, {
-      as: 'user',
+      as: 'Users',
       foreignKey: 'userId',
       onDelete: 'CASCADE',
       onUpdate: 'CASCADE',
     });
     Friends.belongsTo(models.Users, {
-      as: 'friend',
+      as: 'Friends',
       foreignKey: 'friendId',
       onDelete: 'CASCADE',
       onUpdate: 'CASCADE',
