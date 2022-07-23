@@ -1,5 +1,5 @@
 import { v4 } from 'uuid';
-import { Transactions } from '../../models';
+import { Transactions, Users } from '../../models';
 import { successResponse, errorResponse } from '../../helpers';
 
 export const addTransactionView = async (req, res) => {
@@ -37,3 +37,16 @@ export const addTransaction = async (req, res) => {
     return res.redirect('/');
   }
 };
+
+// export const getTransaction = async (req, res) => {
+//   try {
+//     const result = await Transactions.findAll({
+//       include: {
+//         model: Users,
+//         as: 'friend',
+//       },
+//     });
+//   } catch (error) {
+//     console.log(error);
+//   }
+// };

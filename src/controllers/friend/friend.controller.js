@@ -25,11 +25,11 @@ export const getFriends = async (req, res) => {
   try {
     const { id } = req.user;
     const result = await Users.findAll({
-      include: [{
+      include: {
         model: Users,
         as: 'User_Friend',
         attributes: ['name', 'email', 'id', 'contactNumber'],
-      }],
+      },
       attributes: [],
       where: { id },
     });
