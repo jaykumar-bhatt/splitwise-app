@@ -23,11 +23,15 @@ export const addFriend = async (req, res) => {
 
 export const getFriends = async (req, res) => {
   try {
-    const userId = req.user.id;
-    const result = await Friends.findAll({
-      include: { model: Users, as: 'Users' },
-      where: { userId },
-      attributes: ['id'],
+    const { id } = req.user;
+    const result = await Users.findAll({
+      include: [{
+        model: Users,
+        as: 'User_Friend',
+        attributes: ['name', 'email', 'id', 'contactNumber'],
+      }],
+      attributes: [],
+      where: { id },
     });
     req.flash('response', successResponse(req, res, 'Successfully Fetch Friend.'));
     return res.render('friend', { data: result });

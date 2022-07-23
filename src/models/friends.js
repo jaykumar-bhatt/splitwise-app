@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable func-names */
 
 
@@ -30,18 +31,6 @@ module.exports = (sequelize, DataTypes) => {
   );
 
   Friends.associate = function (models) {
-    Friends.belongsTo(models.Users, {
-      as: 'Users',
-      foreignKey: 'userId',
-      onDelete: 'CASCADE',
-      onUpdate: 'CASCADE',
-    });
-    Friends.belongsTo(models.Users, {
-      as: 'Friends',
-      foreignKey: 'friendId',
-      onDelete: 'CASCADE',
-      onUpdate: 'CASCADE',
-    });
   };
   return Friends;
 };

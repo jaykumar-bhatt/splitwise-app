@@ -1,29 +1,37 @@
 /* eslint-disable func-names */
-/* eslint-disable no-unused-vars */
 module.exports = (sequelize, DataTypes) => {
-  const Users = sequelize.define(
-    'Users',
+  const Transactions = sequelize.define(
+    'Transactions',
     {
       id: {
         primaryKey: true,
         type: DataTypes.UUID,
         allowNull: false,
       },
-      name: {
+      userId: {
+        type: DataTypes.UUID,
+        allowNull: false,
+      },
+      friendId: {
+        type: DataTypes.UUID,
+        allowNull: false,
+      },
+      description: {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      contactNumber: {
-        type: DataTypes.INTEGER,
+      friendAmount: {
+        type: DataTypes.FLOAT,
         allowNull: false,
       },
-      email: {
-        type: DataTypes.STRING,
-        allowNull: false,
+      status: {
+        type: DataTypes.ENUM('PENDING', 'SETTLE'),
+        defaultValue: 'PENDING',
       },
-      password: {
-        type: DataTypes.STRING,
-        allowNull: false,
+      groupId: {
+        type: DataTypes.UUID,
+        allowNull: true,
+        defaultValue: null,
       },
       createdAt: {
         type: DataTypes.DATE,
@@ -36,25 +44,15 @@ module.exports = (sequelize, DataTypes) => {
     },
   );
 
-  Users.associate = function (models) {
-    Users.belongsToMany(models.Users, {
-      as: 'User_Friend',
-      through: 'Friends',
-      foreignKey: 'userId',
-    });
-    Users.belongsToMany(models.Users, {
-      as: 'Friend_data',
-      through: 'Friends',
-      foreignKey: 'friendId',
-    });
-    Users.hasMany(models.Transactions, {
+  Transactions.associate = function (models) {
+    Transactions.belongsTo(models.Users, {
       as: 'user',
       foreignKey: 'userId',
     });
-    Users.hasMany(models.Transactions, {
+    Transactions.belongsTo(models.Users, {
       as: 'friend',
       foreignKey: 'friendId',
     });
   };
-  return Users;
+  return Transactions;
 };

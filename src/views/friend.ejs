@@ -64,16 +64,24 @@
               <th>Email</th>
               <th>Contact No.</th>
               <th>Remove Friend</th>
+              <th>Add Expense</th>
             </tr>
           </thead>
           <tbody>
-            <% data.forEach(element => { %>
+            <% data[0].dataValues.User_Friend.forEach(element => { %>
               <tr>
-                <td><%=element.Users.dataValues.name%></td>
-                <td><%=element.Users.dataValues.email%></td>
-                <td><%=element.Users.dataValues.contactNumber%></td>
+                <td><%=element.dataValues.name%></td>
+                <td><%=element.dataValues.email%></td>
+                <td><%=element.dataValues.contactNumber%></td>
                 <td>
-                  <a href="/remove?id=<%=element.id%>">
+                  <a href="/remove/?id=<%=element.dataValues.Friends.id%>">
+                    <span class="mx-auto me-4"
+                      ><i class="fas fa-times"></i
+                    ></span>
+                  </a>
+                </td>
+                <td>
+                  <a href="/transaction?id=<%=element.dataValues.id%>">
                     <span class="mx-auto me-4"
                       ><i class="fas fa-times"></i
                     ></span>

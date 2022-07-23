@@ -17,6 +17,7 @@ export const allUser = async (req, res) => {
       attributes: ['email', 'name', 'contactNumber', 'id'],
       order: [['createdAt', 'DESC']],
     });
+    console.log(result);
     req.flash('response', successResponse(req, res, 'Successfully Featch all Users.'));
     res.render('allUsers', { data: result });
   } catch (error) {
