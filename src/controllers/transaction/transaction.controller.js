@@ -1,5 +1,5 @@
 import { v4 } from 'uuid';
-import { Transactions, Users } from '../../models';
+import { Transactions, Groups, GroupUsers, Users } from '../../models';
 import { successResponse, errorResponse } from '../../helpers';
 
 export const addTransactionView = async (req, res) => {
@@ -35,6 +35,30 @@ export const addTransaction = async (req, res) => {
   } catch (error) {
     req.flash('response', errorResponse(req, res, 'Error while add Friend.'));
     return res.redirect('/');
+  }
+};
+
+export const showAddGroupTransaction = async (req, res) => {
+  const { id } = req.query;
+  // const result = await Groups.findOne({
+  //   include: { model: GroupUsers, as: 'group' },
+  //   where: { id },
+  //   attributes: ['id', 'groupName'],
+  // });
+  const result = await Groups.findOne({
+    where: { id },
+    attributes: ['groupName', 'id'],
+  });
+  // console.log(result);
+
+  res.render('addGroupTransaction', { data: result });
+};
+
+export const addGroupTransaction = async (req, res) => {
+  try {
+
+  } catch (error) {
+
   }
 };
 

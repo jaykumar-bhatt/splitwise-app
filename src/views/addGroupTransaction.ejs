@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+  <html lang="en">
+    <head>
+      <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <link rel="stylesheet" href="/index.css">
+              <title>Spiltwise App</title>
+            </head>
+            <body>
+              <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <div class="container-fluid">
+                  <a class="navbar-brand" href="#">Spiltwise App</a>
+                  <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                  </button>
+                  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                      <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="#">Group</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link active" href="/">Friends</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" href="#" tabindex="-1" aria-disabled="true">Activity</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" href="/allUser" tabindex="-1" aria-disabled="true">All Users</a>
+                      </li>
+                    </ul>
+                  </div>
+                  <div class="d-flex">
+                    <a href="/">
+                      <span>Logout <i class="fas fa-user"></i></span>
+                    </a>
+                  </div>
+                </div>
+              </nav>
+              <% if(typeof message.response !="undefined" && !message.response[0].success) { %>
+    <div class="alert alert-danger" role="alert">
+      <% if(typeof message.response[0].errorMessage[0].msg !="undefined" ){%>
+        <%= message.response[0].errorMessage[0].msg %>
+        <%}else{%>
+          <%= message.response[0].errorMessage%>
+          <%}%>
+        </div>
+        <% }else if(typeof message.response !="undefined" && message.response[0].success){ %>
+          <div class="alert alert-primary" role="alert">
+            <%= message.response[0].data%>
+          </div>
+          <%}%>
+              <main class="main-site">
+                <div class="container-xl">
+                  <form action="/transaction" method="post" class="frm">
+                    <h3 align="center">Add Group Expense</h3>
+                    <input type="hidden" name="groupId" value="<%=data.dataValues.id%>">
+                    <div class="col mb-3">
+                      <label>Group Name</label>
+                      <input type="text" class="form-control" value="<%=data.dataValues.groupName%>" disabled/>
+                    </div>
+                    <div class="col mb-3">
+                      <label>Add Amount</label>
+                      <input id="totalAmount" type="number" name="totalAmount" class="form-control" required/>
+                    </div>
+                    <div class="col mb-3">
+                      <label>Description</label>
+                      <input type="text" name="description" class="form-control" required/>
+                    </div>
+                    <div class="d-grid ">
+                      <button type="submit" class="btn bg-primary text-white">Save</button>
+                    </div>
+                  </form>
+                </div>
+              </main>
+            </body>
+          </html>

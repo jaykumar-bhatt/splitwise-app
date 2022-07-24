@@ -17,10 +17,10 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">
-            <a class="nav-link" aria-current="page" href="#">Group</a>
+            <a class="nav-link active" aria-current="page" href="#">Group</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link active" href="/">Friends</a>
+            <a class="nav-link" href="/">Friends</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#" tabindex="-1" aria-disabled="true">Activity</a>
@@ -67,7 +67,32 @@
             </tr>
           </thead>
           <tbody>
-            
+            <% data.forEach(element => { %>
+              <tr>
+                <td><%=element.dataValues.groupName%></td>
+                <td>
+                  <span>
+                  <%element.dataValues.group.forEach(i => { %>
+                    <%=i.dataValues.groupMember.dataValues.name%><br>
+                 <% }); %>
+                  </span>
+                </td>
+                <td>
+                  <a href="/transaction/group/?id=<%=element.dataValues.id%>">
+                    <span class="mx-auto me-4"
+                      ><i class="fas fa-times"></i
+                    ></span>
+                  </a>
+                </td>
+                <td>
+                  <a href="/group/delete?id=<%=element.dataValues.id%>">
+                    <span class="mx-auto me-4"
+                      ><i class="fas fa-times"></i
+                    ></span>
+                  </a>
+                </td>
+              </tr>
+            <% }); %>
           </tbody>
         </table>
       </form>

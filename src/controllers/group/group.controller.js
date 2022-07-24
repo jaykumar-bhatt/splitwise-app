@@ -50,10 +50,26 @@ export const addGroup = async (req, res) => {
 export const getGroup = async (req, res) => {
   const userId = req.user.id;
   const result = await Groups.findAll({
-    include: { model: GroupUsers, as: 'group' },
+    include: {
+      model: GroupUsers,
+      as: 'group',
+      attributes: ['userId'],
+      include: {
+        model: Users,
+        as: 'groupMember',
+        attributes: ['name'],
+      },
+    },
     where: { userId },
-    // attributes: ['groupId'],
+    attributes: ['groupName', 'id'],
   });
-  // res.send(result);
-  res.render('showGroup', { id: 1 });
+  res.render('showGroup', { data: result });
+};
+
+export const deleteGroup = async (req, res) => {
+  const { id } = req.query;
+  await Groups.destroy({
+    where: { id },
+  });
+  res.send('success');
 };

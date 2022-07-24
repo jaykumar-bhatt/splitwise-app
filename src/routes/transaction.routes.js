@@ -7,5 +7,6 @@ const router = express.Router();
 router.get('/', authentication, transactionController.addTransactionView);
 router.post('/', authentication, transactionController.addTransaction);
 // router.get('/get', transactionController.getTransaction);
+router.get('/group', authentication, transactionController.showAddGroupTransaction);
 
 module.exports = router;

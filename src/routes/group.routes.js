@@ -4,8 +4,9 @@ import authentication from '../middlewares/authentication';
 
 const router = express.Router();
 
-router.get('/', authentication, groupController.addGroupShow);
+router.get('/add', authentication, groupController.addGroupShow);
 router.post('/', authentication, groupController.addGroup);
-router.get('/all', authentication, groupController.getGroup);
+router.get('/', authentication, groupController.getGroup);
+router.get('/delete', authentication, groupController.deleteGroup);
 
 module.exports = router;
