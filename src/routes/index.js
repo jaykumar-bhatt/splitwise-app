@@ -9,7 +9,7 @@ const router = express.Router();
 
 router.use('/', auth);
 router.use('/allUser', user);
-router.use('/', friend);
+router.use('/friend', friend);
 router.use('/transaction', transaction);
 router.use('/group', group);
 

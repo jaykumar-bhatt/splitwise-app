@@ -48,9 +48,9 @@ export const removeFriend = async (req, res) => {
       where: { id },
     });
     req.flash('response', successResponse(req, res, 'Remove Friend Successfully.'));
-    return res.redirect('/');
+    return res.redirect('/friend');
   } catch (error) {
     req.flash('response', errorResponse(req, res, 'Error while delete Friend.', error));
-    return res.redirect('/');
+    return res.redirect('/friend');
   }
 };

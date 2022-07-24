@@ -1,5 +1,5 @@
 import { v4 } from 'uuid';
-import { Transactions, Groups, GroupUsers, Users } from '../../models';
+import { Transactions, Groups, GroupUsers } from '../../models';
 import { successResponse, errorResponse } from '../../helpers';
 
 export const addTransactionView = async (req, res) => {
@@ -52,18 +52,18 @@ export const addGroupTransaction = async (req, res) => {
   try {
     const userId = req.user.id;
     const { groupId, totalAmount, description } = req.body;
-    const result = await GroupUsers.findAll({
+    const { count, rows } = await GroupUsers.findAndCountAll({
       where: { groupId },
     });
-    const perParson = totalAmount / result.length;
+    const perParson = totalAmount / count;
     const payloadArray = [];
-    for (let i = 0; i < result.length; i += 1) {
-      if (!(userId === result[i].dataValues.userId)) {
+    for (let i = 0; i < count; i += 1) {
+      if (!(userId === rows[i].dataValues.userId)) {
         const payload = {
           id: v4(),
           userId,
           description,
-          friendId: result[i].dataValues.userId,
+          friendId: rows[i].dataValues.userId,
           friendAmount: perParson,
           groupId,
         };
@@ -77,10 +77,11 @@ export const addGroupTransaction = async (req, res) => {
   }
 };
 
-export const getTransaction = async (req, res) => {
-  try {
+// export const getTransaction = async (req, res) => {
+//   try {
+//     const userId = req.user.id;
 
-  } catch (error) {
-    console.log(error);
-  }
-};
+//   } catch (error) {
+//     console.log(error);
+//   }
+// };
