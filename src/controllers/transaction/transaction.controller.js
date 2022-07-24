@@ -21,9 +21,8 @@ export const addTransaction = async (req, res) => {
       req.flash('response', errorResponse(req, res, 'Divide Proper.'));
       return res.redirect('/');
     }
-    const id = v4();
     const payload = {
-      id,
+      id: v4(),
       userId,
       friendId,
       description,
@@ -40,37 +39,48 @@ export const addTransaction = async (req, res) => {
 
 export const showAddGroupTransaction = async (req, res) => {
   const { id } = req.query;
-  // const result = await Groups.findOne({
-  //   include: { model: GroupUsers, as: 'group' },
-  //   where: { id },
-  //   attributes: ['id', 'groupName'],
-  // });
   const result = await Groups.findOne({
+    include: { model: GroupUsers, as: 'group', atrributes: ['userId'] },
     where: { id },
     attributes: ['groupName', 'id'],
   });
-  // console.log(result);
 
-  res.render('addGroupTransaction', { data: result });
+  return res.render('addGroupTransaction', { data: result });
 };
 
 export const addGroupTransaction = async (req, res) => {
   try {
-
+    const userId = req.user.id;
+    const { groupId, totalAmount, description } = req.body;
+    const result = await GroupUsers.findAll({
+      where: { groupId },
+    });
+    const perParson = totalAmount / result.length;
+    const payloadArray = [];
+    for (let i = 0; i < result.length; i += 1) {
+      if (!(userId === result[i].dataValues.userId)) {
+        const payload = {
+          id: v4(),
+          userId,
+          description,
+          friendId: result[i].dataValues.userId,
+          friendAmount: perParson,
+          groupId,
+        };
+        payloadArray.push(payload);
+      }
+    }
+    await Transactions.bulkCreate(payloadArray);
+    res.send('success');
   } catch (error) {
-
+    console.log(error);
   }
 };
 
-// export const getTransaction = async (req, res) => {
-//   try {
-//     const result = await Transactions.findAll({
-//       include: {
-//         model: Users,
-//         as: 'friend',
-//       },
-//     });
-//   } catch (error) {
-//     console.log(error);
-//   }
-// };
+export const getTransaction = async (req, res) => {
+  try {
+
+  } catch (error) {
+    console.log(error);
+  }
+};

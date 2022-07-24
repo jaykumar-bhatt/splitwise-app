@@ -8,5 +8,7 @@ router.get('/', authentication, transactionController.addTransactionView);
 router.post('/', authentication, transactionController.addTransaction);
 // router.get('/get', transactionController.getTransaction);
 router.get('/group', authentication, transactionController.showAddGroupTransaction);
+router.post('/group', authentication, transactionController.addGroupTransaction);
+
 
 module.exports = router;
