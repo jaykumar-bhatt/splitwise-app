@@ -17,10 +17,10 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#">Group</a>
+            <a class="nav-link active" aria-current="page" href="/group">Group</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/">Friends</a>
+            <a class="nav-link" href="/friend">Friends</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#" tabindex="-1" aria-disabled="true">Activity</a>
@@ -31,7 +31,7 @@
         </ul>
       </div>
       <div class="d-flex">
-        <a href="/">
+        <a href="/logout">
           <span>Logout <i class="fas fa-user"></i></span>
         </a>
       </div>
@@ -52,10 +52,11 @@
           <%}%>
   <main class="main-site">
     <div class="container-xl">
-      <form class="d-flex" action="?searchWord">
-        <input class="form-control me-2" name="searchWord" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-primary" type="submit">Search</button>
-      </form>
+      <div class="adduser">
+        <a href="group/add">
+          <span>New Group <i class="fas fa-user"></i></span>
+        </a>
+      </div>
       <form action="" class="frm">
         <table class="table table-hover">
           <thead>
