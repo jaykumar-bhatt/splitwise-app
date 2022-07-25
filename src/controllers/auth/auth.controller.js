@@ -77,7 +77,7 @@ export const login = async (req, res) => {
         return res.redirect('/login');
       }
     } catch (error) {
-      req.flash('response', errorResponse(req, res, 'Error while Compare password.', error, 500));
+      req.flash('response', errorResponse(req, res, 'Error while Compare password.', 500, error));
       return res.redirect('/login');
     }
 
@@ -87,7 +87,7 @@ export const login = async (req, res) => {
     req.flash('response', successResponse(req, res, 'User Login Successfully.'));
     return res.redirect('/friend');
   } catch (error) {
-    req.flash('response', errorResponse(req, res, 'Error while create user.', error, 500));
+    req.flash('response', errorResponse(req, res, 'Error while create user.', 500, error));
     return res.redirect('/login');
   }
 };
@@ -95,10 +95,11 @@ export const login = async (req, res) => {
 export const logout = async (req, res) => {
   try {
     res.clearCookie('token');
-    req.flash('response', successResponse(req, res, 'User Logout Successfully.'));
+
+    req.flash('response', successResponse(req, res, 'User Logout Successfully.', 200));
     return res.redirect('/login');
   } catch (error) {
-    req.flash('response', errorResponse(req, res, 'Error while Logout.', error, 500));
+    req.flash('response', errorResponse(req, res, 'Error while Logout.', 500, error));
     return res.redirect('/login');
   }
 };

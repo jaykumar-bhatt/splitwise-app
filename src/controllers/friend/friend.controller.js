@@ -16,14 +16,14 @@ export const addFriend = async (req, res) => {
     try {
       await Friends.create(payload);
     } catch (error) {
-      req.flash('response', errorResponse(req, res, 'Error while create Friend.', error));
+      req.flash('response', errorResponse(req, res, 'Error while create Friend.', 500, error));
       return res.redirect('/allUser');
     }
 
-    req.flash('response', successResponse(req, res, 'Successfully add Friend.'));
+    req.flash('response', successResponse(req, res, 'Successfully add Friend.', 201));
     return res.redirect('/allUser');
   } catch (error) {
-    req.flash('response', errorResponse(req, res, 'Error while add Friend.', error));
+    req.flash('response', errorResponse(req, res, 'Error while add Friend.', 500, error));
     return res.redirect('/allUser');
   }
 };
@@ -42,10 +42,10 @@ export const getFriends = async (req, res) => {
       where: { id },
     });
 
-    req.flash('response', successResponse(req, res, 'Successfully Fetch Friend.'));
+    req.flash('response', successResponse(req, res, 'Successfully Fetch Friend.', 200));
     return res.render('friend', { data: result });
   } catch (error) {
-    req.flash('response', errorResponse(req, res, 'Error while Fetch Friend.', error));
+    req.flash('response', errorResponse(req, res, 'Error while Fetch Friend.', 500, error));
     return res.render('login');
   }
 };
@@ -58,10 +58,10 @@ export const removeFriend = async (req, res) => {
       where: { id },
     });
 
-    req.flash('response', successResponse(req, res, 'Remove Friend Successfully.'));
+    req.flash('response', successResponse(req, res, 'Remove Friend Successfully.', 201));
     return res.redirect('/friend');
   } catch (error) {
-    req.flash('response', errorResponse(req, res, 'Error while delete Friend.', error));
+    req.flash('response', errorResponse(req, res, 'Error while delete Friend.', 500, error));
     return res.redirect('/friend');
   }
 };
