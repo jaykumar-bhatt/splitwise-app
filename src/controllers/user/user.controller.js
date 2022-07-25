@@ -5,6 +5,7 @@ import { errorResponse, successResponse } from '../../helpers';
 
 export const allUser = async (req, res) => {
   try {
+    const userId = req.user.id;
     const searchWord = req.query.searchWord || '';
     const result = await Users.findAll({
       where: {
@@ -12,6 +13,7 @@ export const allUser = async (req, res) => {
           { name: { [Op.iLike]: `%${searchWord}%` } },
           { email: { [Op.iLike]: `%${searchWord}%` } },
         ],
+        [Op.and]: { [Op.not]: { id: userId } },
       },
       attributes: ['email', 'name', 'contactNumber', 'id'],
       order: [['createdAt', 'DESC']],

@@ -6,9 +6,11 @@ const router = express.Router();
 
 router.get('/', authentication, transactionController.addTransactionView);
 router.post('/', authentication, transactionController.addTransaction);
-// router.get('/get', transactionController.getTransaction);
 router.get('/group', authentication, transactionController.showAddGroupTransaction);
 router.post('/group', authentication, transactionController.addGroupTransaction);
 
+router.get('/owes', authentication, transactionController.getOwesTransaction);
+router.get('/borrow', authentication, transactionController.getBorrowsTransaction);
+router.get('/update', authentication, transactionController.updateTransaction);
 
 module.exports = router;

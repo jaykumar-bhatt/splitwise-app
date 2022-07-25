@@ -1,5 +1,10 @@
 import { v4 } from 'uuid';
-import { Transactions, Groups, GroupUsers } from '../../models';
+import {
+  Transactions,
+  Groups,
+  GroupUsers,
+  Users,
+} from '../../models';
 import { successResponse, errorResponse } from '../../helpers';
 
 export const addTransactionView = async (req, res) => {
@@ -24,7 +29,6 @@ export const addTransaction = async (req, res) => {
       userAmount,
       friendAmount,
     } = req.body;
-
     if (parseFloat(totalAmount) !== (parseFloat(friendAmount) + parseFloat(userAmount))) {
       req.flash('response', errorResponse(req, res, 'Divide Proper.', 400));
       return res.redirect('/transaction');
@@ -106,11 +110,47 @@ export const addGroupTransaction = async (req, res) => {
   }
 };
 
-// export const getTransaction = async (req, res) => {
-//   try {
-//     const userId = req.user.id;
+export const getOwesTransaction = async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const result = await Transactions.findAll({
+      include: { model: Users, as: 'friend' },
+      where: { userId },
+    });
+    req.flash('response', successResponse(req, res, 'Owes Details.', 200));
+    return res.render('owes', { data: result });
+  } catch (error) {
+    req.flash('response', errorResponse(req, res, 'Error while Load page.', 500));
+    return res.redirect('/user');
+  }
+};
 
-//   } catch (error) {
-//     console.log(error);
-//   }
-// };
+export const getBorrowsTransaction = async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const result = await Transactions.findAll({
+      include: { model: Users, as: 'user' },
+      where: { friendId: userId },
+    });
+    req.flash('response', successResponse(req, res, 'Borrow Details.', 200));
+    return res.render('borrow', { data: result });
+  } catch (error) {
+    req.flash('response', errorResponse(req, res, 'Error while Load page.', 500));
+    return res.redirect('/user');
+  }
+};
+
+export const updateTransaction = async (req, res) => {
+  try {
+    const { id } = req.query;
+    await Transactions.update(
+      { status: 'SETTLE' },
+      { where: { id } },
+    );
+    req.flash('response', successResponse(req, res, 'Settle Successfully.', 200));
+    return res.redirect('/transaction/owes');
+  } catch (error) {
+    req.flash('response', errorResponse(req, res, 'Error while Load page.', 500));
+    return res.redirect('/transaction/owes');
+  }
+};
