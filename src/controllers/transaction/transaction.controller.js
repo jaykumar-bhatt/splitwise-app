@@ -121,14 +121,59 @@ export const getOwesTransaction = async (req, res) => {
   try {
     const userId = req.user.id;
 
-    const result = await Transactions.findAll({
+    if (!req.query.page || req.query.page === 1) {
+      req.query.page = 1;
+    }
+
+    const page = parseInt(req.query.page, 10);
+    let limit = 5;
+
+    const pageCount = 5;
+    if (pageCount) {
+      limit = pageCount;
+    }
+
+    const offset = 0 + (req.query.page - 1) * limit;
+
+
+    const result = await Transactions.findAndCountAll({
       include: { model: Users, as: 'friend', attributes: ['name'] },
       where: { userId },
       attributes: ['id', 'description', 'friendAmount', 'status'],
+      offset,
+      limit,
     });
 
+    let start = 1;
+
+    let totalPages = Math.floor(result.count / limit);
+
+    const mod = result.count % limit;
+    if (mod !== 0) {
+      totalPages += 1;
+    }
+
+    let end = totalPages;
+    if (totalPages > 10) {
+      if (page > 5) {
+        start = page - 4;
+      }
+      if (start + 9 < totalPages) {
+        end = start + 9;
+      }
+    }
+
+    result.current = { page };
+
+
     req.flash('response', successResponse(req, res, 'Owes Details.', 200));
-    return res.render('owes', { data: result });
+    return res.render('owes', {
+      data: result.rows,
+      current: result.current,
+      limit,
+      start,
+      pages: end,
+    });
   } catch (error) {
     req.flash('response', errorResponse(req, res, 'Error while Load page.', 500, error));
     return res.redirect('/friend');
@@ -139,17 +184,61 @@ export const getBorrowsTransaction = async (req, res) => {
   try {
     const userId = req.user.id;
 
-    const result = await Transactions.findAll({
+    if (!req.query.page || req.query.page === 1) {
+      req.query.page = 1;
+    }
+
+    const page = parseInt(req.query.page, 10);
+    let limit = 5;
+
+    const pageCount = 5;
+    if (pageCount) {
+      limit = pageCount;
+    }
+
+    const offset = 0 + (req.query.page - 1) * limit;
+
+    const result = await Transactions.findAndCountAll({
       include: { model: Users, as: 'user', attributes: ['name'] },
       where: { friendId: userId },
       attributes: ['id', 'description', 'friendAmount', 'status'],
+      offset,
+      limit,
     });
 
+    let start = 1;
+
+    let totalPages = Math.floor(result.count / limit);
+
+    const mod = result.count % limit;
+    if (mod !== 0) {
+      totalPages += 1;
+    }
+
+    let end = totalPages;
+    if (totalPages > 10) {
+      if (page > 5) {
+        start = page - 4;
+      }
+      if (start + 9 < totalPages) {
+        end = start + 9;
+      }
+    }
+
+    result.current = { page };
+
+
     req.flash('response', successResponse(req, res, 'Borrow Details.', 200));
-    return res.render('borrow', { data: result });
+    return res.render('borrow', {
+      data: result.rows,
+      current: result.current,
+      limit,
+      start,
+      pages: end,
+    });
   } catch (error) {
     req.flash('response', errorResponse(req, res, 'Error while Load page.', 500, error));
-    return res.redirect('/friend');
+    return res.redirect('/transaction/borrow');
   }
 };
 

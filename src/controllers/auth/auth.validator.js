@@ -6,7 +6,7 @@ import { errorResponse } from '../../helpers/index';
 const signinObj = joi.object({
   name: joi.string().trim(true).required(),
   email: joi.string().email().required(),
-  contactNumber: joi.string().length(10).required(),
+  contactNumber: joi.string().length(10).pattern(/[6-9]{1}[0-9]{9}/).required(),
   password: joi.string().required(),
 });
 

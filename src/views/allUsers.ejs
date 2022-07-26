@@ -46,7 +46,18 @@
           </tbody>
         </table>
       </form>
-    </div>
+    </div>		
+		
+                            <nav class="container-xl" aria-label="Page navigation example">
+                              <ul class="pagination">
+                                <% if(typeof pages != "undefined" && typeof start != "undefined"){%>
+                                  <% for(i=start;i<=pages;i++){ %>
+                                <li class="page-item"><a class="page-link" <% if(current.page==i){%> pagination__link--active <%}%>" href="/allUser/?page=<%=i%>"><%=i%></a></li>
+                                <%}%>
+                                <%}%>
+                              </ul>
+                            </nav>
+													</div>
   </main>
 </body>
 </html>

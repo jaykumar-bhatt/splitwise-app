@@ -32,9 +32,9 @@
           <tbody>
             <% data[0].dataValues.User_Friend.forEach(element => { %>
               <tr>
-                <td><%=element.dataValues.name%></td>
-                <td><%=element.dataValues.email%></td>
-                <td><%=element.dataValues.contactNumber%></td>
+                <td><%=element.name%></td>
+                <td><%=element.email%></td>
+                <td><%=element.contactNumber%></td>
                 <td>
                   <a href="friend/remove/?id=<%=element.dataValues.Friends.id%>">
                     <span class="mx-auto me-4"

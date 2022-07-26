@@ -22,6 +22,7 @@ app.use(
     extended: true,
   }),
 );
+
 app.use(cookieParser());
 app.use(
   session({
@@ -31,13 +32,16 @@ app.use(
     resave: true,
   }),
 );
+
 app.use(flash());
 app.use((req, res, next) => {
   res.locals.message = req.flash();
   next();
 });
+
 app.use(cors());
 app.use(bodyParser.json());
+
 app.use('/', routes);
 
 module.exports = app;

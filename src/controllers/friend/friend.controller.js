@@ -32,7 +32,21 @@ export const getFriends = async (req, res) => {
   try {
     const { id } = req.user;
 
-    const result = await Users.findAll({
+    if (!req.query.page || req.query.page === 1) {
+      req.query.page = 1;
+    }
+
+    const page = parseInt(req.query.page, 10);
+    let limit = 5;
+
+    const pageCount = 5;
+    if (pageCount) {
+      limit = pageCount;
+    }
+
+    const offset = 0 + (req.query.page - 1) * limit;
+
+    const result = await Users.findAndCountAll({
       include: {
         model: Users,
         as: 'User_Friend',
@@ -40,10 +54,39 @@ export const getFriends = async (req, res) => {
       },
       attributes: [],
       where: { id },
+      offset,
+      limit,
     });
 
+    let start = 1;
+
+    let totalPages = Math.floor(result.count / limit);
+
+    const mod = result.count % limit;
+    if (mod !== 0) {
+      totalPages += 1;
+    }
+
+    let end = totalPages;
+    if (totalPages > 10) {
+      if (page > 5) {
+        start = page - 4;
+      }
+      if (start + 9 < totalPages) {
+        end = start + 9;
+      }
+    }
+
+    result.current = { page };
+
     req.flash('response', successResponse(req, res, 'Successfully Fetch Friend.', 200));
-    return res.render('friend', { data: result });
+    return res.render('friend', {
+      data: result.rows,
+      current: result.current,
+      limit,
+      start,
+      pages: end,
+    });
   } catch (error) {
     req.flash('response', errorResponse(req, res, 'Error while Fetch Friend.', 500, error));
     return res.render('login');
